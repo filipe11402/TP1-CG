@@ -16,6 +16,74 @@
 <body>
     
 </body>
-<script type="module" src="js/main.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script>
+
+class Client {
+    constructor() {
+        this.props = [];
+        this.buildScene();
+    }
+
+    buildScene(){
+        //general client configs
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 45, 30000);
+        this.camera.position.set(-1, 0, 0);
+
+        this.controls = new THREE.OrbitControls(this.camera);
+
+        //renderer configs
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.autoClear = false;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        var cubeGeometry = new THREE.BoxGeometry( 1000, 1000, 1000 );
+        
+        let material = this.renderSkybox();
+        
+        var mesh = new THREE.Mesh(cubeGeometry, material);
+
+        this.scene.add(mesh);
+
+        this.renderer.setClearColor(new THREE.Color(0x000000));
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(this.renderer.domElement);
+
+        this.render();
+    }
+
+    renderSkybox(){
+        var textures = new THREE.CubeTextureLoader()
+                        .setPath('./assets/skybox/')
+                        .load([
+                            'exosystem_pos_x.jpg',
+                            'exosystem_neg_x.jpg',
+                            'exosystem_neg_y.jpg',
+                            'exosystem_pos_y.jpg',
+                            'exosystem_pos_z.jpg',
+                            'exosystem_neg_z.jpg',
+                        ]
+                        );
+
+        return new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            envMap: textures,
+            side: THREE.BackSide
+        });
+    }
+
+    render(){
+        requestAnimationFrame(() => {
+            this.render();
+        });
+
+        this.renderer.render(this.scene, this.camera);
+    }
+}
+
+let client = new Client();
 </script>
 </html>
