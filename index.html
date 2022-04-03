@@ -16,8 +16,10 @@
 <body>
     
 </body>
-<script src="https://cdn.skypack.dev/three@v0.138.2"></script>
-<script>
+<script type="module">
+import * as THREE from 'https://cdn.skypack.dev/three@v0.138.2';
+
+
 class Client {
     constructor() {
         this.props = [];
@@ -31,19 +33,22 @@ class Client {
         this.camera.position.z = 50;
 
         //renderer configs
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
+        this.renderer = new THREE.WebGLRenderer();
         this.renderer.shadowMap.enabled = true;
         this.renderer.autoClear = false;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-        var cubeGeometry = new THREE.BoxGeometry( 1, 1, 1 );
+        var cubeGeometry = new THREE.BoxGeometry( 10, 10, 10 );
         var cubeMaterial = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
         var mesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
         this.scene.add(mesh);
 
+        this.renderer.setClearColor(new THREE.Color(0x000000));
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
+
+        this.render();
     }
 
     render(){
