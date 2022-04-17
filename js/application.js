@@ -1,44 +1,20 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'OrbitControls';
-import { Water } from 'Water';
 import { Sky } from 'Sky';
 
 export class Application{
-    constructor() {
+    constructor(floor) {
         this.props = [];
+        this.floor = floor;
         this.buildScene();
+        this.addToScene();
     }
 
     buildScene(){
-        //general client configs
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
         this.camera.position.set(-1, 100, 0);
 
-        this.waterGeo = new THREE.PlaneGeometry(2000, 2000);
-
-        var water = new Water(
-            this.waterGeo,
-            {
-                textureWidth: 512,
-                textureHeight: 512,
-                waterNormals: new THREE.TextureLoader().load( '../three.js-dev/examples/textures/waternormals.jpg', function ( texture ) {
-
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-
-                } ),
-                sunDirection: new THREE.Vector3(),
-                sunColor: 0xffffff,
-                waterColor: 0x001e0f,
-                distortionScale: 3.7
-            }
-        );
-        
-        water.rotation.x = - Math.PI / 2;
-
-        this.scene.add(water);  
-
-        //renderer configs
         this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
         this.renderer.shadowMap.enabled = true;
         this.renderer.autoClear = false;
@@ -75,7 +51,7 @@ export class Application{
         this.sun.setFromSphericalCoords( 1, phi, theta );
 
         this.sky.material.uniforms[ 'sunPosition' ].value.copy( this.sun );
-        water.material.uniforms[ 'sunDirection' ].value.copy( this.sun ).normalize();
+        this.floor.material.uniforms[ 'sunDirection' ].value.copy( this.sun ).normalize();
 
         this.scene.environment = pmremGenerator.fromScene( this.sky ).texture;
 
@@ -84,6 +60,10 @@ export class Application{
         document.body.appendChild(this.renderer.domElement);
 
         this.render();
+    }
+
+    addToScene(){
+        this.scene.add(this.floor);
     }
 
     render(){
