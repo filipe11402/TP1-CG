@@ -2,10 +2,11 @@ import { Water } from 'Water'
 import * as THREE from 'three';
 
 export class OceanWater{
-    constructor(width, height){
+    constructor(width, height, scene, sun){
         this.height = height;
         this.width = width;
-
+        this.scene = scene;
+        this.sun = sun;
         /**
          * TODO: make size/with sent by parameters
         */
@@ -16,7 +17,6 @@ export class OceanWater{
                 textureWidth: this.width,
                 textureHeight: this.height,
                 waterNormals: new THREE.TextureLoader().load( '../three.js-dev/examples/textures/waternormals.jpg', function ( texture ) {
-
                     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
                 }),
@@ -26,7 +26,7 @@ export class OceanWater{
                 distortionScale: 3.7
             }
         );
-
+        this.water.material.uniforms[ 'sunDirection' ].value.copy( this.sun ).normalize();
         this.setPosition(Math.PI / 2);
     }
 
