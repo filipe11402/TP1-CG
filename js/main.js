@@ -107,4 +107,5 @@ let oceanWater = (function () {
 scene.getInstance().add(oceanWater.getInstance().getObject());
 scene.getInstance().add(sky.getInstance().getObject());
 
-let app = new Application(scene.getInstance(), renderer.getInstance());
+let app = new Application(scene.getInstance(),
+    renderer.getInstance());

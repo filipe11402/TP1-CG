@@ -1,5 +1,6 @@
 import { Sky } from 'Sky';
 import * as THREE from 'three';
+import { parameters } from './utils/sizer.js';
 
 export class SunsetSky{
     constructor(scene, sun, renderer){
@@ -18,11 +19,6 @@ export class SunsetSky{
         skyUniforms[ 'rayleigh' ].value = 2;
         skyUniforms[ 'mieCoefficient' ].value = 0.005;
         skyUniforms[ 'mieDirectionalG' ].value = 0.8; 
-        
-        const parameters = {
-            elevation: 2,
-            azimuth: 180
-        };
 
         const phi = THREE.MathUtils.degToRad( 90 - parameters.elevation );
         const theta = THREE.MathUtils.degToRad( parameters.azimuth );

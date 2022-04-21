@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'OrbitControls';
-import { SunsetSky } from './sky.js';
 
 export class Application{
     constructor(scene, renderer) {

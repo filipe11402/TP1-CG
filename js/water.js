@@ -7,19 +7,14 @@ export class OceanWater{
         this.width = width;
         this.scene = scene;
         this.sun = sun;
-        /**
-         * TODO: make size/with sent by parameters
-        */
+
         this.waterGeometry = new THREE.PlaneGeometry(2000, 2000);
         this.water = new Water(
             this.waterGeometry,
             {
                 textureWidth: this.width,
                 textureHeight: this.height,
-                waterNormals: new THREE.TextureLoader().load( '../three.js-dev/examples/textures/waternormals.jpg', function ( texture ) {
-                    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-
-                }),
+                waterNormals: this.loadTexture('../three.js-dev/examples/textures/waternormals.jpg'),
                 sunDirection: new THREE.Vector3(),
                 sunColor: 0xffffff,
                 waterColor: 0x001e0f,
@@ -30,10 +25,9 @@ export class OceanWater{
         this.setPosition(Math.PI / 2);
     }
 
-    loadTexture(){
-        /**
-         * TODO: load texture based on path
-         */
+    loadTexture(path){
+        return new THREE.TextureLoader().load( path, function ( texture ) {
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;});
     }
 
     setPosition(x){
