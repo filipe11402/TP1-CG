@@ -3,6 +3,11 @@ const parameters = {
     azimuth: 180
 };
 
+const minDistanceView = 10;
+const maxDistanceView = 200;
+
 export {
-    parameters
+    parameters,
+    minDistanceView,
+    maxDistanceView
 }

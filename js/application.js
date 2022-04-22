@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'OrbitControls';
+import { minDistanceView, maxDistanceView } from './utils/sizer.js';
 
 export class Application{
     constructor(scene, renderer) {
@@ -14,6 +15,11 @@ export class Application{
         this.camera.position.set(-1, 100, 0);
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+
+        this.controls.minDistance = minDistanceView;
+        this.controls.maxDistance = maxDistanceView;
+        this.controls.maxPolarAngle = 1.5;
+        this.controls.enablePan = false;
 
         this.renderer.setClearColor(new THREE.Color(0x000000));
         this.renderer.setSize(window.innerWidth, window.innerHeight);
