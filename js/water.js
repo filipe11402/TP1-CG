@@ -8,7 +8,7 @@ export class OceanWater{
         this.scene = scene;
         this.sun = sun;
 
-        this.waterGeometry = new THREE.PlaneGeometry(2000, 2000);
+        this.waterGeometry = new THREE.PlaneGeometry(10000, 10000);
         this.water = new Water(
             this.waterGeometry,
             {

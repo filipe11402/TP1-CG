@@ -1,8 +1,11 @@
 import { Application } from './application.js';
 import { OceanWater } from './water.js';
 import { SunsetSky } from './sky.js';
+import { WoodPlank } from './wood_plank.js';
 import * as THREE from 'three';
 import { Sun } from './sun.js';
+import { OBJLoader } from 'OBJLoader';
+import { FBXLoader } from 'FBXLoader';
 
 let scene = (function () {
     var instance;
@@ -103,6 +106,56 @@ let oceanWater = (function () {
         }
     };
 })();
+
+let loader = new OBJLoader();
+loader.load('../assets/marsColorTest.obj', function(object){
+    
+    object.rotation.x = - Math.PI / 2;
+    object.position.x = - 3000;
+    object.position.z = 5000;
+    object.position.y = - 200;
+    let texture = new THREE.TextureLoader().load('../assets/Marscolor.png');
+
+    object.traverse( function ( child ) {
+        if ( child instanceof THREE.Mesh ) {
+            child.material.map = texture;
+        }
+    } );
+
+    scene.getInstance().add(object);
+});
+
+loader.load('../assets/marsColorTest.obj', function(object){
+    object.rotation.x = - Math.PI / 2;
+    object.position.x = - 6500;
+    object.position.z = 5000;
+    object.position.y = - 200;
+    let texture = new THREE.TextureLoader().load('../assets/Marscolor.png');
+
+    object.traverse( function ( child ) {
+        if ( child instanceof THREE.Mesh ) {
+            child.material.map = texture;
+        }
+    } );
+
+    scene.getInstance().add(object);
+});
+
+let fbxLoader = new FBXLoader();
+fbxLoader.load('../assets/3d-model.fbx', function(object) {
+    object.position.y = - 30;
+    object.scale.set(0.001,0.001,0.001);
+    
+    scene.getInstance().add(object);
+})
+
+/**
+ * TODO: move this from here
+ */
+let light = new THREE.AmbientLight();
+scene.getInstance().add(light);
+
+let woodPlank = new WoodPlank(scene.getInstance());
 
 scene.getInstance().add(oceanWater.getInstance().getObject());
 scene.getInstance().add(sky.getInstance().getObject());
