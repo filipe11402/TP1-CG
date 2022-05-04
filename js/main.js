@@ -2,6 +2,7 @@ import { Application } from './application.js';
 import { OceanWater } from './water.js';
 import { SunsetSky } from './sky.js';
 import { WoodPlank } from './wood_plank.js';
+import { WoodenPilar } from './wooden_pilar.js';
 import * as THREE from 'three';
 import { Sun } from './sun.js';
 import { OBJLoader } from 'OBJLoader';
@@ -144,7 +145,8 @@ loader.load('../assets/marsColorTest.obj', function(object){
 let fbxLoader = new FBXLoader();
 fbxLoader.load('../assets/3d-model.fbx', function(object) {
     object.position.y = - 30;
-    object.scale.set(0.001,0.001,0.001);
+    object.position.z = - 1000;
+    object.scale.set(0.001, 0.001, 0.001);
     
     scene.getInstance().add(object);
 })
@@ -152,13 +154,21 @@ fbxLoader.load('../assets/3d-model.fbx', function(object) {
 /**
  * TODO: move this from here
  */
+
 let light = new THREE.AmbientLight();
 scene.getInstance().add(light);
 
-let woodPlank = new WoodPlank(scene.getInstance());
-
-scene.getInstance().add(oceanWater.getInstance().getObject());
-scene.getInstance().add(sky.getInstance().getObject());
+let meshs = [
+    new WoodPlank(scene.getInstance(), 1.5707963268, 100, 20).getMesh(),
+    new WoodenPilar(scene.getInstance(), - 200, 20, 400).getMesh(),
+    new WoodenPilar(scene.getInstance(), - 200, 20, 0).getMesh(),
+    new WoodenPilar(scene.getInstance(), 600, 20, 0).getMesh(),
+    new WoodenPilar(scene.getInstance(), 600, 20, 400).getMesh(),
+    oceanWater.getInstance().getObject(),
+    sky.getInstance().getObject()
+];
 
 let app = new Application(scene.getInstance(),
     renderer.getInstance());
+
+app.addToScene(meshs);

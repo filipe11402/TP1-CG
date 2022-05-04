@@ -45,4 +45,10 @@ export class Application{
     
         this.renderer.setSize( window.innerWidth, window.innerHeight );
     }
+
+    addToScene(meshs){
+        meshs.forEach(mesh => {
+            this.scene.add(mesh);
+        });
+    }
 }
