@@ -1,8 +1,7 @@
 import * as THREE from 'three';
 
 export class WoodenPilar{
-    constructor(scene, x, y, z) {
-        this.scene = scene;
+    constructor(x, y, z) {
         this.x = x;
         this.y = y;
         this.z = z;

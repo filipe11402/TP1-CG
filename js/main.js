@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { Sun } from './sun.js';
 import { OBJLoader } from 'OBJLoader';
 import { FBXLoader } from 'FBXLoader';
+import { WoodenBridge } from './wooden_bridge.js';
 
 let scene = (function () {
     var instance;
@@ -151,19 +152,10 @@ fbxLoader.load('../assets/3d-model.fbx', function(object) {
     scene.getInstance().add(object);
 })
 
-/**
- * TODO: move this from here
- */
-
-let light = new THREE.AmbientLight();
-scene.getInstance().add(light);
+let bridge = new WoodenBridge(scene.getInstance());
 
 let meshs = [
-    new WoodPlank(scene.getInstance(), 1.5707963268, 100, 20).getMesh(),
-    new WoodenPilar(scene.getInstance(), - 200, 20, 400).getMesh(),
-    new WoodenPilar(scene.getInstance(), - 200, 20, 0).getMesh(),
-    new WoodenPilar(scene.getInstance(), 600, 20, 0).getMesh(),
-    new WoodenPilar(scene.getInstance(), 600, 20, 400).getMesh(),
+    new THREE.AmbientLight(),
     oceanWater.getInstance().getObject(),
     sky.getInstance().getObject()
 ];
@@ -172,3 +164,5 @@ let app = new Application(scene.getInstance(),
     renderer.getInstance());
 
 app.addToScene(meshs);
+app.addToScene(bridge.getLegs());
+app.addToScene(bridge.getFloor());
