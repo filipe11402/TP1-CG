@@ -22,14 +22,16 @@ export class WoodPlank{
         /**
          * TODO: pass wooden plank sizes from ctor
          */
-        let woodGeometry = new THREE.BoxGeometry(20, 400, 15);
+        let woodGeometry = new THREE.BoxGeometry(5, 420, 15);
         let woodMaterial = new THREE.MeshBasicMaterial({ map: texture });
 
         let planeMesh = new THREE.Mesh(woodGeometry, woodMaterial);
 
-        planeMesh.rotation.z = this.x;
+        planeMesh.rotation.z = this.rotationx;
         planeMesh.position.y = this.y;
-        planeMesh.position.x = 30;
+        planeMesh.position.x = this.x;
+        planeMesh.position.z = this.z;
+        planeMesh.rotation.y = 1.5707963268;
 
         return planeMesh;
     }
