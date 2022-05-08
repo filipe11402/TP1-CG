@@ -15,7 +15,7 @@ export class WoodenPilar{
     }
 
     createMesh(texture){
-        let woodGeometry = new THREE.CylinderGeometry(10, 10, 150, 100, 15);
+        let woodGeometry = new THREE.CylinderGeometry(2, 2, 50, 50, 15);
         let woodMaterial = new THREE.MeshBasicMaterial({ map: texture });
 
         let planeMesh = new THREE.Mesh(woodGeometry, woodMaterial);
