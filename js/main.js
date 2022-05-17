@@ -28,7 +28,7 @@ let scene = (function () {
 })();
 
 /**
- * TODO: extract this to other class
+ * TODO: extract this to three_factory.js
  */
 let renderer = (function () {
     var instance;

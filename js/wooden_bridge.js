@@ -14,7 +14,7 @@ export class WoodenBridge{
         let plankSpace = - 200;
         for(let i = 0;i <= 57;i++){
             planks.push(
-                new WoodPlank(this.scene, plankSpace, 97, 200, 1.5707963268).getMesh()
+                new WoodPlank(this.scene, plankSpace, 20, 200, 1.5707963268).getMesh()
                 );
             plankSpace += 14;
         }
@@ -24,10 +24,10 @@ export class WoodenBridge{
 
     loadLegs(){
         let legs = [
-            new WoodenPilar(- 200, 20, 400).getMesh(),
-            new WoodenPilar(- 200, 20, 0).getMesh(),
-            new WoodenPilar(600, 20, 0).getMesh(),
-            new WoodenPilar(600, 20, 400).getMesh(),
+            new WoodenPilar(- 200, 5, 400).getMesh(),
+            new WoodenPilar(- 200, 5, 0).getMesh(),
+            new WoodenPilar(600, 5, 0).getMesh(),
+            new WoodenPilar(600, 5, 400).getMesh(),
         ];
 
         return legs;
