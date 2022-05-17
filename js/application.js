@@ -64,7 +64,6 @@ export class Application{
                     this.moveRight = true;
                     break;
                 case ' ':
-                    console.log("here");
                     if(this.canJump === true) this.velocity.y += 350;
                     this.canJump = false;
                     break;
@@ -108,6 +107,7 @@ export class Application{
         const delta = (time - this.prevTime) / 1000;
 
         if (this.controls.isLocked === true) {
+            console.log("here 1");
             this.raycaster.ray.origin.copy( this.controls.getObject().position );
             this.raycaster.ray.origin.y -= 10;
 
@@ -129,7 +129,6 @@ export class Application{
             this.controls.getObject().position.y += ( this.velocity.y * delta );
 
             if ( this.controls.getObject().position.y < 10 ) {
-                console.log("here 1");
                 this.velocity.y = 0;
                 this.controls.getObject().position.y = 10;
 
