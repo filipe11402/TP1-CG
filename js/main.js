@@ -1,43 +1,15 @@
 import { Application } from './application.js';
 import { OceanWater } from './water.js';
 import { SunsetSky } from './sky.js';
-import { WoodPlank } from './wood_plank.js';
-import { WoodenPilar } from './wooden_pilar.js';
 import * as THREE from 'three';
 import { Sun } from './sun.js';
 import { OBJLoader } from 'OBJLoader';
-import { FBXLoader } from 'FBXLoader';
 import { WoodenBridge } from './wooden_bridge.js';
-import * as CANNON from 'Cannon';
-import { BoxGeometry } from 'three';
-import { GLTFLoader } from 'GLTFLoader';
+import { Bouy } from './bouy.js';
+import { Boat } from './boat.js';
+import { World } from './world.js';
 
-class Boat{
-    constructor(scene){
-        this.loadModel(scene);
-    }
-
-    loadModel(scene){
-        const fbxLoader = new GLTFLoader();
-        fbxLoader.load('../assets/scene.gltf', (object) => {
-            scene.add(object.scene);
-            object.scene.position.set(0, 0, - 1000);
-            object.scene.scale.set(0.1, 0.1, 0.08);
-            
-            this.boat = object.scene;
-    })
-    }
-
-    update(position, quaternion){
-        if(this.boat){
-            // this.boat.translateZ(position.z);
-            this.boat.position.copy(position);
-            this.boat.quaternion.copy(quaternion);
-        }
-    }
-}
-
-let world = new CANNON.World();
+let world = new World();
 
 let scene = (function () {
     var instance;
@@ -162,7 +134,7 @@ loader.load('../assets/marsColorTest.obj', function(object){
     object.position.x = - 6500;
     object.position.z = 5000;
     object.position.y = - 200;
-    let texture = new THREE.TextureLoader().load('../assets/Marscolor.png');
+    let texture = new THREE.TextureLoader().load('../assets/Marscolor.png'); 
 
     object.traverse( function ( child ) {
         if ( child instanceof THREE.Mesh ) {
@@ -173,8 +145,7 @@ loader.load('../assets/marsColorTest.obj', function(object){
     scene.getInstance().add(object);
 });
 
-let boat = new Boat(scene.getInstance());
-console.log(boat);
+let boat = new Boat(scene.getInstance(), 0, 0, -1000);
 
 let bridge = new WoodenBridge(scene.getInstance());
 
@@ -187,7 +158,8 @@ let meshs = [
 let app = new Application(scene.getInstance(),
     renderer.getInstance(),
     boat,
-    oceanWater.getInstance());
+    oceanWater.getInstance(),
+    world.world);
 
 app.addToScene(meshs);
 app.addToScene(bridge.getLegs());

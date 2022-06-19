@@ -1,0 +1,407 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 1224,
+      "max": [
+        40.37873458862305,
+        17.632801055908203,
+        32.662322998046875
+      ],
+      "min": [
+        -46.39531326293945,
+        0.12618699669837952,
+        -53.96932601928711
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 14688,
+      "componentType": 5126,
+      "count": 1224,
+      "max": [
+        0.9985755681991577,
+        0.9999973773956299,
+        0.9989221692085266
+      ],
+      "min": [
+        -0.9991783499717712,
+        -0.9999938011169434,
+        -0.9984205365180969
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 1224,
+      "max": [
+        0.7740445137023926,
+        0.9999639987945557,
+        0.7707954049110413,
+        1.0
+      ],
+      "min": [
+        -0.7744736075401306,
+        -0.9999710917472839,
+        -0.7713400721549988,
+        1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 1224,
+      "max": [
+        0.9643917679786682,
+        0.9690855145454407
+      ],
+      "min": [
+        0.000303780339891091,
+        0.000303780339891091
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 6144,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 29376,
+      "componentType": 5126,
+      "count": 214,
+      "max": [
+        29.209396362304688,
+        17.77686882019043,
+        22.952301025390625
+      ],
+      "min": [
+        -36.64038848876953,
+        13.7374849319458,
+        -42.784236907958984
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 31944,
+      "componentType": 5126,
+      "count": 214,
+      "max": [
+        0.9959738850593567,
+        0.9949945211410522,
+        0.8884871602058411
+      ],
+      "min": [
+        -0.9807760715484619,
+        -0.9983306527137756,
+        -0.9986426830291748
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 19584,
+      "componentType": 5126,
+      "count": 214,
+      "max": [
+        0.9965793490409851,
+        0.9990948438644409,
+        0.9999775886535645,
+        1.0
+      ],
+      "min": [
+        -0.9819818735122681,
+        -0.999872624874115,
+        -0.9814811944961548,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 9792,
+      "componentType": 5126,
+      "count": 214,
+      "max": [
+        0.9996962547302246,
+        0.6845945119857788
+      ],
+      "min": [
+        0.9649991989135742,
+        0.000303780339891091
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 24576,
+      "componentType": 5125,
+      "count": 882,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Sebastian Webster (https://sketchfab.com/Sebastian.Hamish.Webster)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/inflatable-ring-e27df4cbd35c4666b4690b58e1a3dad6",
+      "title": "Inflatable ring"
+    },
+    "generator": "Sketchfab-12.66.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 28104,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 11504,
+      "byteOffset": 28104,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 34512,
+      "byteOffset": 39608,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 23008,
+      "byteOffset": 74120,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 97128,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/lowRing_baseColor.png"
+    },
+    {
+      "uri": "textures/lowRing_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/lowRing_normal.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "lowRing",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1
+        }
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "iring_low_lowRing_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3
+          },
+          "indices": 4,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "strap_low_lowRing_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 6,
+            "POSITION": 5,
+            "TANGENT": 7,
+            "TEXCOORD_0": 8
+          },
+          "indices": 9,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Inflate_Ring_low.fbx"
+    },
+    {
+      "children": [
+        3,
+        5
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        99.99999999999866,
+        1.6292067073209114e-05,
+        0.0,
+        0.0,
+        -1.6292067073209114e-05,
+        99.99999999999866,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "iring_low"
+    },
+    {
+      "mesh": 0,
+      "name": "iring_low_lowRing_0"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        99.99999999999866,
+        1.6292067073209114e-05,
+        0.0,
+        0.0,
+        -1.6292067073209114e-05,
+        99.99999999999866,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "strap_low"
+    },
+    {
+      "mesh": 1,
+      "name": "strap_low_lowRing_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}
