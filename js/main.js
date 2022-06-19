@@ -22,7 +22,7 @@ class Boat{
         fbxLoader.load('../assets/scene.gltf', (object) => {
             scene.add(object.scene);
             object.scene.position.set(0, 0, - 1000);
-            object.scene.scale.set(0.1, 0.1, 0.1);
+            object.scene.scale.set(0.1, 0.1, 0.08);
             
             this.boat = object.scene;
     })
@@ -30,7 +30,7 @@ class Boat{
 
     update(position, quaternion){
         if(this.boat){
-            this.boat.translateZ(position.z);
+            // this.boat.translateZ(position.z);
             this.boat.position.copy(position);
             this.boat.quaternion.copy(quaternion);
         }

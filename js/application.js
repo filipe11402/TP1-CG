@@ -30,19 +30,19 @@ export class Application{
 
         this.timeStep = 1 / 60;
 
-        var groundMaterial = new CANNON.Material('groundMaterial');
-        var wheelMaterial = new CANNON.Material('wheelMaterial');
+        var groundMaterial = new CANNON.Material('ground');
+        var wheelMaterial = new CANNON.Material('wheel');
         var wheelGroundContactMaterial = new CANNON.ContactMaterial(wheelMaterial, groundMaterial, {
-            friction: 0.1,
+            friction: 0.3,
             restitution: 0,
             contactEquationStiffness: 1000,
         });
 
-        this.world.defaultContactMaterial.friction = 0
+        this.world.defaultContactMaterial.friction = 0.5;
         
         this.world.addContactMaterial(wheelGroundContactMaterial);
 
-        let boatPhisicsGeo = new THREE.BoxGeometry(30, 20, 575);
+        let boatPhisicsGeo = new THREE.BoxGeometry(100, 20, 575);
         let boatPhisicsMat = new THREE.MeshBasicMaterial({
             wireframe: true
         });
@@ -66,24 +66,22 @@ export class Application{
         this.controls = new PointerLockControls(this.camera, document.body);
 
         this.boatBody = new CANNON.Body({
-            mass: 50,
-            shape: new CANNON.Box(new CANNON.Vec3(60, 10, 265.5)),
+            mass: 150,
+            shape: new CANNON.Box(new CANNON.Vec3(50, 10, 265.5)),
             position: new CANNON.Vec3(0, 20, - 1000)
         });
 
-        // this.boatBody.angularVelocity.set(0, 1, 0)
-        
         // parent vehicle object
         this.vehicle = new CANNON.RaycastVehicle({
             chassisBody: this.boatBody,
             indexRightAxis: 0, // x
             indexUpAxis: 1, // y
-            indexForwardAxis: 2 // z
+            indexForwardAxis: 2, // z
         });
 
         // wheel options
         var options = {
-            radius: 15,
+            radius: 20,
             directionLocal: new CANNON.Vec3(0, -1, 0),
             suspensionStiffness: 45,
             suspensionRestLength: 0.4,
@@ -96,44 +94,46 @@ export class Application{
             chassisConnectionPointLocal: new CANNON.Vec3(1, 1, 0),
             maxSuspensionTravel: 0.25,
             customSlidingRotationalSpeed: -30,
-            useCustomSlidingRotationalSpeed: true
+            useCustomSlidingRotationalSpeed: true,
         };
 
-        options.chassisConnectionPointLocal.set(1, 1, 0);
+        options.chassisConnectionPointLocal.set(-50, 10, -100)
         this.vehicle.addWheel(options);
 
-        options.chassisConnectionPointLocal.set(1, -1, 0);
+        options.chassisConnectionPointLocal.set(50, 10, -100)
         this.vehicle.addWheel(options);
         
-        options.chassisConnectionPointLocal.set(-1, 1, 0);
+        options.chassisConnectionPointLocal.set(50, 10, 100)
         this.vehicle.addWheel(options);
         
-        options.chassisConnectionPointLocal.set(-1, -1, 0);
+        options.chassisConnectionPointLocal.set(-50, 10, 100)
         this.vehicle.addWheel(options);
 
         this.vehicle.addToWorld(this.world);
 
-        var wheelBodies = [],
-        wheelVisuals = [];
+        var wheelBodies = [];
+        var wheelVisuals = [];
         this.vehicle.wheelInfos.forEach((wheel) => {
-            var shape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20);
-            var body = new CANNON.Body({mass: 1, material: wheelMaterial});
-            var q = new CANNON.Quaternion();
-            body.type = CANNON.Body.KINEMATIC
-            q.setFromAxisAngle(new CANNON.Vec3(10, 10, 1), -Math.PI / 2);
-            body.addShape(shape, new CANNON.Vec3(), q);
-            wheelBodies.push(body);
-            body.collisionFilterGroup = 0
-            // wheel visual body
-            var geometry = new THREE.CylinderGeometry( wheel.radius, wheel.radius, 0.4, 32 );
-            var material = new THREE.MeshPhongMaterial({
-                wireframe: true
-            });
-            var cylinder = new THREE.Mesh(geometry, material);
-            wheelVisuals.push(cylinder);
-            this.scene.add(cylinder);
-            
-            this.world.addBody(body);
+            const cylinderShape = new CANNON.Cylinder(wheel.radius, wheel.radius, wheel.radius / 2, 20)
+            const wheelBody = new CANNON.Body({
+              mass: 0,
+              material: wheelMaterial,
+            })
+            wheelBody.type = CANNON.Body.KINEMATIC
+            wheelBody.collisionFilterGroup = 0 // turn off collisions
+            const quaternion = new CANNON.Quaternion().setFromEuler(-Math.PI / 2, 0, 0)
+            wheelBody.addShape(cylinderShape, new CANNON.Vec3(), quaternion)
+            wheelBodies.push(wheelBody)
+            this.world.addBody(wheelBody)
+
+            // var geometry = new THREE.CylinderGeometry( wheel.radius, wheel.radius, 0.4, 32 );
+            // var material = new THREE.MeshPhongMaterial({
+            //   wireframe: true
+            // });
+            // this.cylinder = new THREE.Mesh(geometry, material);
+            // this.cylinder.geometry.rotateZ(Math.PI/2);
+            // wheelVisuals.push(this.cylinder);
+            // this.scene.add(this.cylinder);
         });
         
         this.world.addEventListener('postStep', () => {
@@ -143,9 +143,9 @@ export class Application{
               // update wheel physics
               wheelBodies[i].position.copy(t.position);
               wheelBodies[i].quaternion.copy(t.quaternion);
-              // update wheel visuals
-              wheelVisuals[i].position.copy(t.position);
-              wheelVisuals[i].quaternion.copy(t.quaternion);
+
+            //   wheelVisuals[i].position.copy(t.position);
+            //   wheelVisuals[i].quaternion.copy(t.quaternion);
             }
           });
 
@@ -170,63 +170,65 @@ export class Application{
         });
 
         this.scene.add(this.controls.getObject());
-
+        let steeringValue = 0;
         window.addEventListener('keyup',  (keyboard) => {
-            this.vehicle.setBrake(0, 0);
-            this.vehicle.setBrake(0, 1);
-            this.vehicle.setBrake(0, 2);
-            this.vehicle.setBrake(0, 3);
             switch(keyboard.key){
                 case 'w':
-                    this.vehicle.applyEngineForce(0, 2);
-                    this.vehicle.applyEngineForce(0, 3);
-                    // this.boatBody.position.z += 10;
+                    this.vehicle.applyEngineForce(0, 0);
+                    this.vehicle.applyEngineForce(0, 1);
                     break;
                 case 'a':
-                    this.vehicle.setSteeringValue(0, 0);
-                    this.vehicle.setSteeringValue(0, 1);
+                    this.vehicle.setSteeringValue(0, 2);
+                    this.vehicle.setSteeringValue(0, 3);
                     break;
                 case 's':
-                    this.vehicle.applyEngineForce(0, 2);
-                    this.vehicle.applyEngineForce(0, 3);
-                    // this.moveBackward = false;
+                    this.vehicle.applyEngineForce(0, 0);
+                    this.vehicle.applyEngineForce(0, 1);
                     break;
                 case 'd':
-                    this.vehicle.setSteeringValue(0, 0);
-                    this.vehicle.setSteeringValue(0, 1);
-                    // this.moveRight = false;
+                    this.vehicle.setSteeringValue(0, 2);
+                    this.vehicle.setSteeringValue(0, 3);
+                    break;
+                case ' ':
+                    this.vehicle.setBrake(0, 0)
+                    this.vehicle.setBrake(0, 1)
+                    this.vehicle.setBrake(0, 2)
+                    this.vehicle.setBrake(0, 3)
                     break;
             }
         });
 
         window.addEventListener('keydown', (keyboard) => {
-            this.vehicle.setBrake(0, 0);
-            this.vehicle.setBrake(0, 1);
-            this.vehicle.setBrake(0, 2);
-            this.vehicle.setBrake(0, 3);
+            const speed = 1000;
+            const steering = 0.2;
             switch(keyboard.key){
                 case 'w':
-                    this.vehicle.applyEngineForce(800, 2);
-                    this.vehicle.applyEngineForce(-800, 3);
-                    // this.moveForward = true;
+                    console.log("w");
+                    this.vehicle.applyEngineForce(-speed, 0);
+                    this.vehicle.applyEngineForce(-speed, 1);
+
                     break;
                 case 'a':
-                    this.vehicle.setSteeringValue(Math.PI / 8, 0);
-                    this.vehicle.setSteeringValue(Math.PI / 8, 1);
-                    // this.moveLeft = true;
+                    
+                    this.vehicle.setSteeringValue(steering, 2);
+                    this.vehicle.setSteeringValue(steering, 3);
+
                     break;
                 case 's':
-                    this.vehicle.applyEngineForce(-800, 2);
-                    this.vehicle.applyEngineForce(800, 3);
-                    // this.moveBackward = true;
+                    this.vehicle.applyEngineForce(speed, 0);
+                    this.vehicle.applyEngineForce(speed, 1);
+
                     break;
                 case 'd':
-                    this.vehicle.setSteeringValue(-Math.PI / 8, 0);
-                    this.vehicle.setSteeringValue(-Math.PI / 8, 1);
+                    this.vehicle.setSteeringValue(-steering, 2);
+                    this.vehicle.setSteeringValue(-steering, 3);
                     break;
                 case ' ':
-                    // if(this.canJump === true) this.velocity.y += 350;
-                    // this.canJump = false;
+                    this.vehicle.setBrake(-1000, 0)
+                    this.vehicle.setBrake(-1000, 1)
+                    this.vehicle.setBrake(-1000, 2)
+                    this.vehicle.setBrake(-1000, 3)
+
                     break;
             }
         });
@@ -256,6 +258,7 @@ export class Application{
         this.bridgeMesh.quaternion.copy(this.bridgeBody.quaternion);
         
         this.boat.update(this.boatBody.position, this.boatBody.quaternion);
+        this.camera.position.set(this.boatBody.position.x - 10, this.boatBody.position.y + 50, this.boatBody.position.z - 10);
         this.renderer.render(this.scene, this.camera);
     }
 
