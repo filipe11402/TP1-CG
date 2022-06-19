@@ -22,7 +22,6 @@ export class OceanWater{
             }
         );
         this.water.material.uniforms[ 'sunDirection' ].value.copy( this.sun ).normalize();
-        this.setPosition(Math.PI / 2);
     }
 
     loadTexture(path){

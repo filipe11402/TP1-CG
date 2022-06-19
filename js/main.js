@@ -8,6 +8,36 @@ import { Sun } from './sun.js';
 import { OBJLoader } from 'OBJLoader';
 import { FBXLoader } from 'FBXLoader';
 import { WoodenBridge } from './wooden_bridge.js';
+import * as CANNON from 'Cannon';
+import { BoxGeometry } from 'three';
+import { GLTFLoader } from 'GLTFLoader';
+
+class Boat{
+    constructor(scene){
+        this.loadModel(scene);
+    }
+
+    loadModel(scene){
+        const fbxLoader = new GLTFLoader();
+        fbxLoader.load('../assets/scene.gltf', (object) => {
+            scene.add(object.scene);
+            object.scene.position.set(0, 0, - 1000);
+            object.scene.scale.set(0.1, 0.1, 0.1);
+            
+            this.boat = object.scene;
+    })
+    }
+
+    update(position, quaternion){
+        if(this.boat){
+            this.boat.translateZ(position.z);
+            this.boat.position.copy(position);
+            this.boat.quaternion.copy(quaternion);
+        }
+    }
+}
+
+let world = new CANNON.World();
 
 let scene = (function () {
     var instance;
@@ -143,14 +173,8 @@ loader.load('../assets/marsColorTest.obj', function(object){
     scene.getInstance().add(object);
 });
 
-let fbxLoader = new FBXLoader();
-fbxLoader.load('../assets/3d-model.fbx', function(object) {
-    object.position.y = - 30;
-    object.position.z = - 1000;
-    object.scale.set(0.001, 0.001, 0.001);
-    
-    scene.getInstance().add(object);
-})
+let boat = new Boat(scene.getInstance());
+console.log(boat);
 
 let bridge = new WoodenBridge(scene.getInstance());
 
@@ -161,8 +185,11 @@ let meshs = [
 ];
 
 let app = new Application(scene.getInstance(),
-    renderer.getInstance());
+    renderer.getInstance(),
+    boat,
+    oceanWater.getInstance());
 
 app.addToScene(meshs);
 app.addToScene(bridge.getLegs());
 app.addToScene(bridge.getFloor());
+
