@@ -15,14 +15,14 @@ export class Application{
     }
 
     buildScene(){
-        let boatPhisicsGeo = new THREE.BoxGeometry(100, 20, 575);
-        let boatPhisicsMat = new THREE.MeshBasicMaterial({
-            wireframe: true
-        });
+        // let boatPhisicsGeo = new THREE.BoxGeometry(2500, 1000, 1300);
+        // let boatPhisicsMat = new THREE.MeshBasicMaterial({
+        //     wireframe: true
+        // });
         
-        this.boatPhisicsMesh = new THREE.Mesh(boatPhisicsGeo, boatPhisicsMat);
+        // this.boatPhisicsMesh = new THREE.Mesh(boatPhisicsGeo, boatPhisicsMat);
         // this.scene.add(this.boatPhisicsMesh);
-        
+
         this.bridgeGeo = new THREE.BoxGeometry(900, 50, 420);
         this.bridgeMaterial = new THREE.MeshBasicMaterial({
             wireframe: true
@@ -41,7 +41,6 @@ export class Application{
         this.buildBouies(5);
         this.buildColisionBodies();
 
-        // parent vehicle object
         this.vehicle = new CANNON.RaycastVehicle({
             chassisBody: this.boatBody,
             indexRightAxis: 0, // x
@@ -49,7 +48,6 @@ export class Application{
             indexForwardAxis: 2, // z
         });
 
-        // wheel options
         var options = {
             radius: 20,
             directionLocal: new CANNON.Vec3(0, -1, 0),
@@ -181,8 +179,11 @@ export class Application{
         this.bridgeMesh.position.copy(this.bridgeBody.position);
         this.bridgeMesh.quaternion.copy(this.bridgeBody.quaternion);
         
+        // this.boatPhisicsMesh.position.copy(this.rightMountain.position);
+        // this.boatPhisicsMesh.quaternion.copy(this.rightMountain.quaternion);
+
         this.boat.update(this.boatBody.position, this.boatBody.quaternion);
-        this.camera.position.set(this.boatBody.position.x - 10, this.boatBody.position.y + 50, this.boatBody.position.z - 10);
+        this.camera.position.set(this.boatBody.position.x, this.boatBody.position.y + 50, this.boatBody.position.z + 30);
         this.renderer.render(this.scene, this.camera);
     }
 
@@ -210,8 +211,8 @@ export class Application{
         let bouies = [
             new Bouy(this.scene, 100, -5, - 1200, "bouy1"),
             new Bouy(this.scene, 1000, -5, - 2000, "bouy2"),
-            new Bouy(this.scene, 600, -5, - 100, "bouy3"),
-            new Bouy(this.scene, 200, -5, - 1000, "bouy4"),
+            new Bouy(this.scene, -1000, -5, - 2000, "bouy3"),
+            new Bouy(this.scene, -2000, -5, - 1000, "bouy4"),
             new Bouy(this.scene, 10, -5, - 600, "bouy5")
         ];
         const boxShape = new CANNON.Box(new CANNON.Vec3(10, 10, 10));
@@ -230,9 +231,21 @@ export class Application{
     }
 
     buildColisionBodies(){
+        this.leftMountain = new CANNON.Body({
+            mass: 0,
+            shape: new CANNON.Box(new CANNON.Vec3(1400, 500, 650)),
+            position: new CANNON.Vec3(2000, 400, 0)
+        });
+        
+        this.rightMountain = new CANNON.Body({
+            mass: 0,
+            shape: new CANNON.Box(new CANNON.Vec3(1250, 500, 650)),
+            position: new CANNON.Vec3(-1500, 400, 0)
+        });
+
         this.boatBody = new CANNON.Body({
             mass: 150,
-            shape: new CANNON.Box(new CANNON.Vec3(50, 10, 265.5)),
+            shape: new CANNON.Box(new CANNON.Vec3(50, 10, 220)),
             position: new CANNON.Vec3(0, 20, - 1000)
         });
 
@@ -249,6 +262,8 @@ export class Application{
 
         this.floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
 
+        this.world.addBody(this.rightMountain);
+        this.world.addBody(this.leftMountain);
         this.world.addBody(this.bridgeBody);
         this.world.addBody(this.boatBody);
         this.world.addBody(this.floorBody);
