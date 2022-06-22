@@ -15,27 +15,10 @@ export class Application{
     }
 
     buildScene(){
-        // let boatPhisicsGeo = new THREE.BoxGeometry(2500, 1000, 1300);
-        // let boatPhisicsMat = new THREE.MeshBasicMaterial({
-        //     wireframe: true
-        // });
-        
-        // this.boatPhisicsMesh = new THREE.Mesh(boatPhisicsGeo, boatPhisicsMat);
-        // this.scene.add(this.boatPhisicsMesh);
-
-        this.bridgeGeo = new THREE.BoxGeometry(900, 50, 420);
-        this.bridgeMaterial = new THREE.MeshBasicMaterial({
-            wireframe: true
-        });
-
-        this.bridgeMesh = new THREE.Mesh(this.bridgeGeo, this.bridgeMaterial);
-        this.scene.add(this.bridgeMesh);
-        this.bridgeMesh.position.x = 200;
-        this.bridgeMesh.position.y = 5;
-        this.bridgeMesh.position.z = 200;
+        this.world.defaultContactMaterial.friction = 0;
 
         this.camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
-        this.camera.position.set( 100, 100, -800 );
+        this.camera.position.set( -500, 100, -800 );
         this.controls = new PointerLockControls(this.camera, document.body);
 
         this.buildBouies(5);
@@ -133,7 +116,7 @@ export class Application{
         });
 
         window.addEventListener('keydown', (keyboard) => {
-            const speed = 1000;
+            const speed = 5000;
             const steering = 0.2;
             switch(keyboard.key){
                 case 'w':
@@ -176,14 +159,7 @@ export class Application{
         this.water.water.position.copy(this.floorBody.position);
         this.water.water.quaternion.copy(this.floorBody.quaternion);
 
-        this.bridgeMesh.position.copy(this.bridgeBody.position);
-        this.bridgeMesh.quaternion.copy(this.bridgeBody.quaternion);
-        
-        // this.boatPhisicsMesh.position.copy(this.rightMountain.position);
-        // this.boatPhisicsMesh.quaternion.copy(this.rightMountain.quaternion);
-
         this.boat.update(this.boatBody.position, this.boatBody.quaternion);
-        this.camera.position.set(this.boatBody.position.x, this.boatBody.position.y + 50, this.boatBody.position.z + 30);
         this.renderer.render(this.scene, this.camera);
     }
 
